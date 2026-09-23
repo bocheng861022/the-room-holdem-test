@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#090d0c" />
+  <title>THE ROOM — Texas Hold'em</title>
+  <meta name="description" content="A refined, play-money Texas Hold'em game for entertainment only." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="assets/app-icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css?v=18" />
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <main id="lobby" class="screen lobby is-active" aria-label="Game lobby">
+    <nav class="topbar" aria-label="Lobby navigation">
+      <a class="wordmark" href="#" aria-label="The Room home"><span>THE</span> ROOM</a>
+      <div class="topbar-actions">
+        <button class="test-chips" data-add-chips>+10K CHIPS</button>
+        <button class="icon-button sound-toggle" aria-label="Sound" aria-pressed="true"><span>◒</span></button>
+        <button class="profile-chip"><span class="profile-avatar">AK</span><span class="profile-copy"><b>Avery</b><small>24,850 CHIPS</small></span></button>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <p class="eyebrow"><span></span> STANDARD TEXAS HOLD’EM</p>
+      <h1 data-i18n-html="hero">Play the room.<br><em>Play for fun.</em></h1>
+      <p class="hero-copy" data-i18n-html="heroCopy">A refined, play-money poker experience.<br>No purchases. No cash. No prizes.</p>
+      <div class="legal-warning" role="note"><b data-i18n="noRealMoney">NO REAL-MONEY GAMBLING</b><span data-i18n="gamblingProhibited">GAMBLING FOR MONEY IS PROHIBITED</span></div>
+      <div class="hero-actions">
+        <button id="joinButton" class="button button-primary play-now"><span data-i18n="play">PLAY NOW</span> <span>▶</span></button>
+        <button class="button button-quiet" data-open="rulesDialog" data-i18n="howToPlay">HOW TO PLAY</button>
+        <button id="adChipsButton" class="button button-quiet" hidden data-i18n="watchAd">WATCH AD FOR CHIPS</button>
+      </div>
+      <p class="legal-note">18+ · FOR ENTERTAINMENT ONLY · VIRTUAL CHIPS HAVE NO MONETARY VALUE AND CANNOT BE REDEEMED</p>
+    </section>
+
+    <footer class="lobby-footer"><span>FAIR PLAY</span><span>·</span><span>STANDARD TEXAS HOLD’EM</span><span>·</span><span>PLAY RESPONSIBLY</span></footer>
+  </main>
+
+  <section id="tableScreen" class="screen table-screen" aria-label="Poker table" inert>
+    <header class="game-header">
+      <button id="exitButton" class="icon-button" aria-label="Leave table">←</button>
+      <div class="table-title"><span class="live-dot"></span><div><b>THE ATRIUM</b><small>NO LIMIT · 100 / 200</small></div></div>
+      <div class="game-header-actions"><button class="test-chips" data-add-chips>+10K CHIPS</button><button id="pauseButton" class="icon-button" aria-label="Pause">Ⅱ</button><button class="icon-button" aria-label="Table information" data-open="rulesDialog">i</button><button class="icon-button" aria-label="Settings" data-open="settingsDialog">•••</button></div>
+    </header>
+
+    <section class="game-stage">
+      <div class="table-wrap">
+        <div class="poker-table">
+          <div class="table-line"></div>
+          <div class="table-mark"><span>THE</span><b>ROOM</b><small>EST. 2026</small></div>
+          <div class="pot"><small>TOTAL POT</small><strong id="potValue">0</strong></div>
+          <div id="community" class="community" role="group" aria-label="Community cards"></div>
+          <div id="tableBets"></div>
+        </div>
+        <div id="orderHint" class="order-hint"></div>
+        <div id="showdownSummary" class="showdown-summary" hidden></div>
+
+        <div id="seat1" class="seat seat-top"><div class="avatar">MS</div><div class="player"><b>Maya</b><span>10,000</span></div><small></small></div>
+        <div id="seat2" class="seat seat-left"><div class="avatar avatar-olive">NO</div><div class="player"><b>Noah</b><span>10,000</span></div><small></small></div>
+        <div id="seat3" class="seat seat-right"><div class="avatar avatar-stone">JL</div><div class="player"><b>Jules</b><span>10,000</span></div><small></small></div>
+        <div id="seat4" class="seat seat-bottom-left"><div class="avatar avatar-rust">EM</div><div class="player"><b>Emil</b><span>10,000</span></div><small></small></div>
+        <div id="seat5" class="seat seat-bottom-right"><div class="avatar avatar-blue">SI</div><div class="player"><b>Sienna</b><span>10,000</span></div><small></small></div>
+
+        <div class="hero-seat">
+          <div id="holeCards" class="hole-cards"></div>
+          <div id="heroPlate" class="hero-player"><span class="profile-avatar">AK</span><div><b>YOU</b><span>10,000</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="action-dock">
+      <div class="hand-read"><small id="streetLabel">PREFLOP</small><strong id="handLabel">YOUR TURN</strong></div>
+      <div class="action-buttons">
+        <button id="foldButton" class="action fold">FOLD</button>
+        <button id="callButton" class="action check">CHECK</button>
+        <button id="raiseButton" class="action raise"><span>RAISE TO</span><b>800</b></button>
+      </div>
+      <div class="raise-control"><input id="raiseSlider" type="range" min="400" max="4000" step="100" value="800" aria-label="Raise amount"><div><button data-preset="half">½ POT</button><button data-preset="pot">POT</button><button data-preset="allin">ALL IN</button></div></div>
+    </footer>
+    <div id="toast" class="toast" role="status"></div>
+    <div id="actionBanner" class="action-banner" role="status" aria-live="polite"></div>
+    <div id="actionFlash" class="action-flash" aria-hidden="true"></div>
+    <div id="resultOverlay" class="result-overlay" role="status" aria-live="assertive">
+      <div class="result-burst" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <small id="resultEyebrow">HAND COMPLETE</small>
+      <strong id="resultTitle">YOU WIN</strong>
+      <span id="resultDetail"></span>
+    </div>
+    <div id="pauseOverlay" class="pause-overlay" hidden><small data-i18n="paused">GAME PAUSED</small><button id="resumeButton" class="button button-primary" data-i18n="resume">RESUME</button></div>
+  </section>
+
+  <dialog id="rulesDialog" class="sheet">
+    <button class="sheet-close" data-close aria-label="Close">×</button>
+    <p class="eyebrow"><span></span> STANDARD RULES</p><h2>Texas Hold’em</h2>
+    <div class="sheet-copy" data-i18n-html="rules"><p>Each player receives two private cards. Five community cards are dealt in stages: flop, turn, and river. Make the best five-card hand using any combination of your private and community cards.</p><p>Action moves clockwise through four betting rounds. You may check, call, raise, or fold when legal. The best remaining hand wins at showdown; if all others fold, the last player wins without showing.</p><ol><li>Straight Flush</li><li>Four of a Kind</li><li>Full House</li><li>Flush</li><li>Straight</li><li>Three of a Kind</li><li>Two Pair</li><li>One Pair</li><li>High Card</li></ol></div>
+  </dialog>
+  <dialog id="settingsDialog" class="sheet">
+    <button class="sheet-close" data-close aria-label="Close">×</button>
+    <p class="eyebrow"><span></span> PREFERENCES</p><h2 data-i18n="settings">Settings</h2>
+    <label class="setting-row"><span data-i18n="language">Language</span><select id="languageSetting"><option value="en">English</option><option value="zh">中文</option></select></label>
+    <label class="setting-row"><span data-i18n="musicVolume">Music volume</span><input id="musicVolume" type="range" min="0" max="100" value="60"></label>
+    <label class="setting-row"><span data-i18n="soundVolume">Sound effects volume</span><input id="soundVolume" type="range" min="0" max="100" value="70"></label>
+    <label class="setting-row"><span data-i18n="reducedMotion">Reduced motion</span><input id="motionSetting" type="checkbox"></label>
+    <nav class="legal-links" aria-label="Legal and support"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="support.html">Support</a></nav>
+    <p class="compliance-box" data-i18n="compliance">For entertainment only. No real-money gambling. Virtual chips have no monetary value and cannot be purchased, sold, transferred, or redeemed for cash or prizes.</p>
+  </dialog>
+  <dialog id="adDialog" class="sheet ad-sheet">
+    <p class="eyebrow"><span></span> TEST REWARDED AD</p><h2 data-i18n="adPlaying">Advertisement playing</h2>
+    <p class="sheet-copy" data-i18n="adRule">Watch the full 30-second test ad to reset your balance to 10,000 chips.</p>
+    <strong id="adCountdown">30</strong><progress id="adProgress" max="30" value="0"></progress>
+    <button id="claimAdReward" class="button button-primary" disabled data-i18n="watching">WATCHING…</button>
+  </dialog>
+  <dialog id="welcomeDialog" class="sheet welcome-sheet">
+    <div class="icon-mark" aria-hidden="true">T</div>
+    <p class="eyebrow"><span></span> BEFORE YOU TAKE A SEAT</p><h2 data-i18n-html="welcomeTitle">Pure play.<br>No real money.</h2>
+    <p class="sheet-copy" data-i18n="welcomeCopy">The Room is a simulated Texas Hold’em game intended for adults. All chips are free virtual counters with no monetary value. They cannot be bought, sold, transferred, or redeemed for cash or prizes.</p>
+    <button id="welcomeContinue" class="button button-primary" data-i18n="continue">I UNDERSTAND · CONTINUE</button>
+    <p class="welcome-footnote">By continuing, you confirm that you meet the minimum age required in your country or region.</p>
+  </dialog>
+
+  <script type="module" src="app.js?v=31"></script>
+  <script>if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./service-worker.js');</script>
+</body>
+</html>
